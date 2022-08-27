@@ -1,6 +1,6 @@
-import {OutputData} from '../data-formats/output-data';
-import {BlockToolData, ToolConfig} from '../tools';
-import {BlockAPI} from './block';
+import { OutputData } from "../data-formats/output-data";
+import { BlockToolData, ToolConfig } from "../tools";
+import { BlockAPI } from "./block";
 
 /**
  * Describes methods to manipulate with Editor`s blocks
@@ -102,6 +102,7 @@ export interface Blocks {
    * @param {number?} index — index where to insert new Block
    * @param {boolean?} needToFocus - flag to focus inserted Block
    * @param {boolean?} replace - should the existed Block on that index be replaced or not
+   * @param {string} id - Block id
    */
   insert(
     type?: string,
@@ -110,15 +111,15 @@ export interface Blocks {
     index?: number,
     needToFocus?: boolean,
     replace?: boolean,
+    id?: string
   ): BlockAPI;
-
 
   /**
    * Creates data of an empty block with a passed type.
    *
    * @param toolName - block tool name
    */
-  composeBlockData(toolName: string): Promise<BlockToolData>
+  composeBlockData(toolName: string): Promise<BlockToolData>;
 
   /**
    * Updates block data by id

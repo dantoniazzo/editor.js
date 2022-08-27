@@ -1,9 +1,9 @@
-import { BlockAPI as BlockAPIInterface, Blocks } from '../../../../types/api';
-import { BlockToolData, OutputData, ToolConfig } from '../../../../types';
-import * as _ from './../../utils';
-import BlockAPI from '../../block/api';
-import Module from '../../__module';
-import Block from '../../block';
+import { BlockAPI as BlockAPIInterface, Blocks } from "../../../../types/api";
+import { BlockToolData, OutputData, ToolConfig } from "../../../../types";
+import * as _ from "./../../utils";
+import BlockAPI from "../../block/api";
+import Module from "../../__module";
+import Block from "../../block";
 
 /**
  * @class BlocksAPI
@@ -19,16 +19,21 @@ export default class BlocksAPI extends Module {
     return {
       clear: (): void => this.clear(),
       render: (data: OutputData): Promise<void> => this.render(data),
-      renderFromHTML: (data: string): Promise<void> => this.renderFromHTML(data),
+      renderFromHTML: (data: string): Promise<void> =>
+        this.renderFromHTML(data),
       delete: (index?: number): void => this.delete(index),
-      swap: (fromIndex: number, toIndex: number): void => this.swap(fromIndex, toIndex),
-      move: (toIndex: number, fromIndex?: number): void => this.move(toIndex, fromIndex),
-      getBlockByIndex: (index: number): BlockAPIInterface | void => this.getBlockByIndex(index),
+      swap: (fromIndex: number, toIndex: number): void =>
+        this.swap(fromIndex, toIndex),
+      move: (toIndex: number, fromIndex?: number): void =>
+        this.move(toIndex, fromIndex),
+      getBlockByIndex: (index: number): BlockAPIInterface | void =>
+        this.getBlockByIndex(index),
       getById: (id: string): BlockAPIInterface | null => this.getById(id),
       getCurrentBlockIndex: (): number => this.getCurrentBlockIndex(),
       getBlockIndex: (id: string): number => this.getBlockIndex(id),
       getBlocksCount: (): number => this.getBlocksCount(),
-      stretchBlock: (index: number, status = true): void => this.stretchBlock(index, status),
+      stretchBlock: (index: number, status = true): void =>
+        this.stretchBlock(index, status),
       insertNewBlock: (): void => this.insertNewBlock(),
       insert: this.insert,
       update: this.update,
@@ -64,7 +69,7 @@ export default class BlocksAPI extends Module {
     const block = this.Editor.BlockManager.getBlockById(id);
 
     if (!block) {
-      _.logLabeled('There is no block with id `' + id + '`', 'warn');
+      _.logLabeled("There is no block with id `" + id + "`", "warn");
 
       return;
     }
@@ -81,7 +86,7 @@ export default class BlocksAPI extends Module {
     const block = this.Editor.BlockManager.getBlockByIndex(index);
 
     if (block === undefined) {
-      _.logLabeled('There is no block at index `' + index + '`', 'warn');
+      _.logLabeled("There is no block at index `" + index + "`", "warn");
 
       return;
     }
@@ -98,7 +103,7 @@ export default class BlocksAPI extends Module {
     const block = this.Editor.BlockManager.getBlockById(id);
 
     if (block === undefined) {
-      _.logLabeled('There is no block with id `' + id + '`', 'warn');
+      _.logLabeled("There is no block with id `" + id + "`", "warn");
 
       return null;
     }
@@ -115,9 +120,9 @@ export default class BlocksAPI extends Module {
    */
   public swap(fromIndex: number, toIndex: number): void {
     _.log(
-      '`blocks.swap()` method is deprecated and will be removed in the next major release. ' +
-      'Use `block.move()` method instead',
-      'info'
+      "`blocks.swap()` method is deprecated and will be removed in the next major release. " +
+        "Use `block.move()` method instead",
+      "info"
     );
 
     this.Editor.BlockManager.swap(fromIndex, toIndex);
@@ -142,7 +147,7 @@ export default class BlocksAPI extends Module {
     try {
       this.Editor.BlockManager.removeBlock(blockIndex);
     } catch (e) {
-      _.logLabeled(e, 'warn');
+      _.logLabeled(e, "warn");
 
       return;
     }
@@ -159,7 +164,10 @@ export default class BlocksAPI extends Module {
      * After Block deletion currentBlock is updated
      */
     if (this.Editor.BlockManager.currentBlock) {
-      this.Editor.Caret.setToBlock(this.Editor.BlockManager.currentBlock, this.Editor.Caret.positions.END);
+      this.Editor.Caret.setToBlock(
+        this.Editor.BlockManager.currentBlock,
+        this.Editor.Caret.positions.END
+      );
     }
 
     this.Editor.Toolbar.close();
@@ -205,11 +213,7 @@ export default class BlocksAPI extends Module {
    * @deprecated Use BlockAPI interface to stretch Blocks
    */
   public stretchBlock(index: number, status = true): void {
-    _.deprecationAssert(
-      true,
-      'blocks.stretchBlock()',
-      'BlockAPI'
-    );
+    _.deprecationAssert(true, "blocks.stretchBlock()", "BlockAPI");
 
     const block = this.Editor.BlockManager.getBlockByIndex(index);
 
@@ -229,6 +233,7 @@ export default class BlocksAPI extends Module {
    * @param {number?} index — index where to insert new Block
    * @param {boolean?} needToFocus - flag to focus inserted Block
    * @param replace - pass true to replace the Block existed under passed index
+   * @param {string} id - Block id
    */
   public insert = (
     type: string = this.config.defaultBlock,
@@ -236,9 +241,11 @@ export default class BlocksAPI extends Module {
     config: ToolConfig = {},
     index?: number,
     needToFocus?: boolean,
-    replace?: boolean
+    replace?: boolean,
+    id?: string
   ): BlockAPIInterface => {
     const insertedBlock = this.Editor.BlockManager.insert({
+      id,
       tool: type,
       data,
       index,
@@ -247,14 +254,16 @@ export default class BlocksAPI extends Module {
     });
 
     return new BlockAPI(insertedBlock);
-  }
+  };
 
   /**
    * Creates data of an empty block with a passed type.
    *
    * @param toolName - block tool name
    */
-  public composeBlockData = async (toolName: string): Promise<BlockToolData> => {
+  public composeBlockData = async (
+    toolName: string
+  ): Promise<BlockToolData> => {
     const tool = this.Editor.Tools.blockTools.get(toolName);
     const block = new Block({
       tool,
@@ -265,7 +274,7 @@ export default class BlocksAPI extends Module {
     });
 
     return block.data;
-  }
+  };
 
   /**
    * Insert new Block
@@ -276,8 +285,11 @@ export default class BlocksAPI extends Module {
    * @deprecated with insert() method
    */
   public insertNewBlock(): void {
-    _.log('Method blocks.insertNewBlock() is deprecated and it will be removed in the next major release. ' +
-      'Use blocks.insert() instead.', 'warn');
+    _.log(
+      "Method blocks.insertNewBlock() is deprecated and it will be removed in the next major release. " +
+        "Use blocks.insert() instead.",
+      "warn"
+    );
     this.insert();
   }
 
@@ -292,7 +304,7 @@ export default class BlocksAPI extends Module {
     const block = BlockManager.getBlockById(id);
 
     if (!block) {
-      _.log('blocks.update(): Block with passed id was not found', 'warn');
+      _.log("blocks.update(): Block with passed id was not found", "warn");
 
       return;
     }
@@ -307,5 +319,5 @@ export default class BlocksAPI extends Module {
       replace: true,
       tunes: block.tunes,
     });
-  }
+  };
 }
