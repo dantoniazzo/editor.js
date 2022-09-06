@@ -102,6 +102,7 @@ export interface Blocks {
    * @param {number?} index — index where to insert new Block
    * @param {boolean?} needToFocus - flag to focus inserted Block
    * @param {boolean?} replace - should the existed Block on that index be replaced or not
+   * @param { boolean} triggerOnChange
    * @param {string} id - Block id
    */
   insert(
@@ -111,6 +112,7 @@ export interface Blocks {
     index?: number,
     needToFocus?: boolean,
     replace?: boolean,
+    triggerOnChange?: boolean,
     id?: string
   ): BlockAPI;
 
@@ -126,6 +128,7 @@ export interface Blocks {
    *
    * @param id - id of the block to update
    * @param data - the new data
+   * @param triggerOnChange
    */
-  update(id: string, data: BlockToolData): void;
+  update(id: string, data: BlockToolData, triggerOnChange: boolean): void;
 }

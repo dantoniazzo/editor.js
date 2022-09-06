@@ -233,6 +233,7 @@ export default class BlocksAPI extends Module {
    * @param {number?} index — index where to insert new Block
    * @param {boolean?} needToFocus - flag to focus inserted Block
    * @param replace - pass true to replace the Block existed under passed index
+   * @param { boolean }triggerOnChange
    * @param {string} id - Block id
    */
   public insert = (
@@ -242,6 +243,7 @@ export default class BlocksAPI extends Module {
     index?: number,
     needToFocus?: boolean,
     replace?: boolean,
+    triggerOnChange?: boolean,
     id?: string
   ): BlockAPIInterface => {
     const insertedBlock = this.Editor.BlockManager.insert({
@@ -250,6 +252,7 @@ export default class BlocksAPI extends Module {
       data,
       index,
       needToFocus,
+      triggerOnChange,
       replace,
     });
 
@@ -298,8 +301,13 @@ export default class BlocksAPI extends Module {
    *
    * @param id - id of the block to update
    * @param data - the new data
+   * @param triggerOnChange
    */
-  public update = (id: string, data: BlockToolData): void => {
+  public update = (
+    id: string,
+    data: BlockToolData,
+    triggerOnChange: true
+  ): void => {
     const { BlockManager } = this.Editor;
     const block = BlockManager.getBlockById(id);
 
