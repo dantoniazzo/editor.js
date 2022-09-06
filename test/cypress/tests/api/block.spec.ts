@@ -1,20 +1,18 @@
-import { BlockMutationType } from '../../../../types/events/block/mutation-type';
+import { BlockMutationType } from "../../../../types/events/block/mutation-type";
 
 /**
  * There will be described test cases of BlockAPI
  */
-describe('BlockAPI', () => {
+describe("BlockAPI", () => {
   const firstBlock = {
-    id: 'bwnFX5LoX7',
-    type: 'paragraph',
+    id: "bwnFX5LoX7",
+    type: "paragraph",
     data: {
-      text: 'The first block content mock.',
+      text: "The first block content mock.",
     },
   };
   const editorDataMock = {
-    blocks: [
-      firstBlock,
-    ],
+    blocks: [firstBlock],
   };
 
   /**
@@ -28,36 +26,41 @@ describe('BlockAPI', () => {
     } else {
       const config = {
         data: editorDataMock,
-        onChange: (): void => { console.log('something changed'); },
+        onChange: (): void => {
+          console.log("something changed");
+        },
       };
 
-      cy.createEditor(config).as('editorInstance');
+      cy.createEditor(config).as("editorInstance");
 
-      cy.spy(config, 'onChange').as('onChange');
+      cy.spy(config, "onChange").as("onChange");
     }
   });
 
   /**
    * block.dispatchChange();
    */
-  describe('.dispatchChange()', () => {
+  describe(".dispatchChange()", () => {
     /**
      * Check that blocks.dispatchChange() triggers Editor 'onChange' callback
      */
-    it('should trigger onChange with corresponded block', () => {
-      cy.get('@editorInstance').then(async (editor: any) => {
+    it("should trigger onChange with corresponded block", () => {
+      cy.get("@editorInstance").then(async (editor: any) => {
         const block = editor.blocks.getById(firstBlock.id);
 
         block.dispatchChange();
 
-        cy.get('@onChange').should('be.calledWithMatch', EditorJSApiMock, Cypress.sinon.match({
-          type: BlockMutationType.Changed,
-          detail: {
-            index: 0,
-          },
-        }));
+        cy.get("@onChange").should(
+          "be.calledWithMatch",
+          EditorJSApiMock,
+          Cypress.sinon.match({
+            type: BlockMutationType.Changed,
+            detail: {
+              index: 0,
+            },
+          })
+        );
       });
     });
   });
-
 });

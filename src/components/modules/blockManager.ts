@@ -310,7 +310,7 @@ export default class BlockManager extends Module {
      * In case of block replacing (Converting OR from Toolbox or Shortcut on empty block OR on-paste to empty block)
      * we need to dispatch the 'block-removing' event for the replacing block
      */
-    if (replace && !triggerOnChange) {
+    if (replace && triggerOnChange) {
       this.blockDidMutated(
         BlockMutationType.Removed,
         this.getBlockByIndex(newIndex),
@@ -325,7 +325,7 @@ export default class BlockManager extends Module {
     /**
      * Force call of didMutated event on Block insertion
      */
-    if (!triggerOnChange)
+    if (triggerOnChange)
       this.blockDidMutated(BlockMutationType.Added, block, {
         index: newIndex,
       });
@@ -463,9 +463,13 @@ export default class BlockManager extends Module {
    * Remove block with passed index or remove last
    *
    * @param {number|null} index - index of Block to remove
+   * @param {boolean} triggerOnChange
    * @throws {Error} if Block to remove is not found
    */
-  public removeBlock(index = this.currentBlockIndex): void {
+  public removeBlock(
+    index = this.currentBlockIndex,
+    triggerOnChange = true
+  ): void {
     /**
      * If index is not passed and there is no block selected, show a warning
      */
@@ -481,9 +485,10 @@ export default class BlockManager extends Module {
     /**
      * Force call of didMutated event on Block removal
      */
-    this.blockDidMutated(BlockMutationType.Removed, blockToRemove, {
-      index,
-    });
+    if (triggerOnChange)
+      this.blockDidMutated(BlockMutationType.Removed, blockToRemove, {
+        index,
+      });
 
     if (this.currentBlockIndex >= index) {
       this.currentBlockIndex--;
@@ -750,8 +755,13 @@ export default class BlockManager extends Module {
    *
    * @param {number} toIndex - index where to move Block
    * @param {number} fromIndex - index of Block to move
+   * @param {boolean} triggerOnChange
    */
-  public move(toIndex, fromIndex = this.currentBlockIndex): void {
+  public move(
+    toIndex,
+    fromIndex = this.currentBlockIndex,
+    triggerOnChange = true
+  ): void {
     // make sure indexes are valid and within a valid range
     if (isNaN(toIndex) || isNaN(fromIndex)) {
       _.log(`Warning during 'move' call: incorrect indices provided.`, "warn");
@@ -777,10 +787,11 @@ export default class BlockManager extends Module {
     /**
      * Force call of didMutated event on Block movement
      */
-    this.blockDidMutated(BlockMutationType.Moved, this.currentBlock, {
-      fromIndex,
-      toIndex,
-    });
+    if (triggerOnChange)
+      this.blockDidMutated(BlockMutationType.Moved, this.currentBlock, {
+        fromIndex,
+        toIndex,
+      });
   }
 
   /**

@@ -133,19 +133,25 @@ export default class BlocksAPI extends Module {
    *
    * @param {number} toIndex - index to move to
    * @param {number} fromIndex - index to move from
+   * @param {boolean} triggerOnChange
    */
-  public move(toIndex: number, fromIndex?: number): void {
-    this.Editor.BlockManager.move(toIndex, fromIndex);
+  public move(
+    toIndex: number,
+    fromIndex?: number,
+    triggerOnChange?: boolean
+  ): void {
+    this.Editor.BlockManager.move(toIndex, fromIndex, triggerOnChange);
   }
 
   /**
    * Deletes Block
    *
    * @param {number} blockIndex - index of Block to delete
+   * @param {boolean} triggerOnChange
    */
-  public delete(blockIndex?: number): void {
+  public delete(blockIndex?: number, triggerOnChange?: boolean): void {
     try {
-      this.Editor.BlockManager.removeBlock(blockIndex);
+      this.Editor.BlockManager.removeBlock(blockIndex, triggerOnChange);
     } catch (e) {
       _.logLabeled(e, "warn");
 
@@ -306,7 +312,7 @@ export default class BlocksAPI extends Module {
   public update = (
     id: string,
     data: BlockToolData,
-    triggerOnChange: true
+    triggerOnChange: boolean
   ): void => {
     const { BlockManager } = this.Editor;
     const block = BlockManager.getBlockById(id);
@@ -326,6 +332,7 @@ export default class BlocksAPI extends Module {
       index: blockIndex,
       replace: true,
       tunes: block.tunes,
+      triggerOnChange,
     });
   };
 }
