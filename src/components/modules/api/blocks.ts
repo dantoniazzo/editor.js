@@ -325,7 +325,7 @@ export default class BlocksAPI extends Module {
 
     const blockIndex = BlockManager.getBlockIndex(block);
 
-    /*  BlockManager.insert({
+    BlockManager.insert({
       id: block.id,
       tool: block.name,
       data,
@@ -333,6 +333,6 @@ export default class BlocksAPI extends Module {
       replace: true,
       tunes: block.tunes,
       triggerOnChange,
-    }); */
+    });
   };
 }
