@@ -238,9 +238,9 @@ export default class BlocksAPI extends Module {
    * @param {ToolConfig} config — Tool config
    * @param {number?} index — index where to insert new Block
    * @param {boolean?} needToFocus - flag to focus inserted Block
-   * @param replace - pass true to replace the Block existed under passed index
-   * @param { boolean }triggerOnChange
-   * @param {string} id - Block id
+   * @param {boolean?} replace - pass true to replace the Block existed under passed index
+   * @param { boolean? } triggerOnChange - trigger onChange event if true
+   * @param {string?} id - Block id
    */
   public insert = (
     type: string = this.config.defaultBlock,

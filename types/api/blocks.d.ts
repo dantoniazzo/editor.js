@@ -102,8 +102,8 @@ export interface Blocks {
    * @param {number?} index — index where to insert new Block
    * @param {boolean?} needToFocus - flag to focus inserted Block
    * @param {boolean?} replace - should the existed Block on that index be replaced or not
-   * @param { boolean} triggerOnChange
-   * @param {string} id - Block id
+   * @param {boolean?} triggerOnChange - trigger onChange event if true
+   * @param {string?} id - Block id
    */
   insert(
     type?: string,
