@@ -30,8 +30,9 @@ export interface Blocks {
   /**
    * Removes current Block
    * @param {number} index - index of a block to delete
+   * @param {boolean} triggerOnChange
    */
-  delete(index?: number): void;
+  delete(index?: number, triggerOnChange?: boolean): void;
 
   /**
    * Swaps two Blocks

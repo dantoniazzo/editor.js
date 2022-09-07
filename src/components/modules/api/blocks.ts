@@ -21,7 +21,8 @@ export default class BlocksAPI extends Module {
       render: (data: OutputData): Promise<void> => this.render(data),
       renderFromHTML: (data: string): Promise<void> =>
         this.renderFromHTML(data),
-      delete: (index?: number): void => this.delete(index),
+      delete: (index?: number, triggerOnChange?: boolean): void =>
+        this.delete(index, triggerOnChange),
       swap: (fromIndex: number, toIndex: number): void =>
         this.swap(fromIndex, toIndex),
       move: (toIndex: number, fromIndex?: number): void =>

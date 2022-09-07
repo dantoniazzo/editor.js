@@ -463,7 +463,7 @@ export default class BlockManager extends Module {
    * Remove block with passed index or remove last
    *
    * @param {number|null} index - index of Block to remove
-   * @param {boolean} triggerOnChange
+   * @param {boolean?} triggerOnChange
    * @throws {Error} if Block to remove is not found
    */
   public removeBlock(
