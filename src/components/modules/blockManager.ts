@@ -281,7 +281,7 @@ export default class BlockManager extends Module {
     index,
     needToFocus = true,
     replace = false,
-    triggerOnChange = false,
+    triggerOnChange = true,
     tunes = {},
   }: {
     id?: string;
