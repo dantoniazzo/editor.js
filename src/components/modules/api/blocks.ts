@@ -25,8 +25,11 @@ export default class BlocksAPI extends Module {
         this.delete(index, triggerOnChange),
       swap: (fromIndex: number, toIndex: number): void =>
         this.swap(fromIndex, toIndex),
-      move: (toIndex: number, fromIndex?: number): void =>
-        this.move(toIndex, fromIndex),
+      move: (
+        toIndex: number,
+        fromIndex?: number,
+        triggerOnChange?: boolean
+      ): void => this.move(toIndex, fromIndex, triggerOnChange),
       getBlockByIndex: (index: number): BlockAPIInterface | void =>
         this.getBlockByIndex(index),
       getById: (id: string): BlockAPIInterface | null => this.getById(id),
@@ -134,13 +137,9 @@ export default class BlocksAPI extends Module {
    *
    * @param {number} toIndex - index to move to
    * @param {number} fromIndex - index to move from
-   * @param {boolean} triggerOnChange
+   * @param {boolean} triggerOnChange - trigger onChange event if true
    */
-  public move(
-    toIndex: number,
-    fromIndex?: number,
-    triggerOnChange?: boolean
-  ): void {
+  public move(toIndex, fromIndex?: number, triggerOnChange?: boolean): void {
     this.Editor.BlockManager.move(toIndex, fromIndex, triggerOnChange);
   }
 

@@ -758,7 +758,7 @@ export default class BlockManager extends Module {
    * @param {boolean} triggerOnChange
    */
   public move(
-    toIndex,
+    toIndex: number,
     fromIndex = this.currentBlockIndex,
     triggerOnChange = true
   ): void {

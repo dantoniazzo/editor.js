@@ -46,8 +46,9 @@ export interface Blocks {
    * Moves a block to a new index
    * @param {number} toIndex - index where the block is moved to
    * @param {number} fromIndex - block to move
+   * @param { boolean} triggerOnChange - trigger onChange event if true
    */
-  move(toIndex: number, fromIndex?: number): void;
+  move(toIndex: number, fromIndex?: number, triggerOnChange?: boolean): void;
 
   /**
    * Returns Block API object by passed Block index
